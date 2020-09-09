@@ -1,8 +1,7 @@
-# Shrub
-Our fork of Shrub CMS platform.
+# Ludum Dare Backend
+Formerly known as [shrub](https://github.com/povrazor/shrub) (and formerly found
+[here](https://github.com/ludumdare/ludumdare/tree/master/src/shrub), this is the
+backend code for Ludum Dare.
 
-For now, active **Shrub** development is happening here in the Ludum Dare codebase. In the future it will be its own project.
-
-Additional details about the standalone project:
-
-https://github.com/povrazor/shrub
+This backend code is used by a variety of services, including the
+[API](https://github.com/ludumdare/web-api.ldjam.com).
