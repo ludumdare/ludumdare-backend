@@ -227,9 +227,26 @@ function core_RemovePathDotsFromArray($arr) {
 /// Internal parser for the API request
 function _core_GetAPIRequest() {
 	$PATH = '';
-	
+
+	// If REQUEST_URI was set, then we're in NGINX
+	if ( isset($_SERVER['REQUEST_URI']) ) {
+		// REQUEST_URI is the full path starting with '/'
+		$PATH = $_SERVER['REQUEST_URI'];
+		$SCRIPT = $_SERVER['SCRIPT_NAME'];
+		$TRIMMED = dirname($SCRIPT).basename($SCRIPT, '.php');
+
+		// Remove fully qualified PHP script name
+		if (strpos($PATH, $SCRIPT) === 0) {
+			$PATH = substr($PATH, strlen($SCRIPT));
+		}
+		// Remove trimmed PHP script name (i.e. an endpoint)
+		else if (strpos($PATH, $TRIMMED) === 0) {
+			$PATH = substr($PATH, strlen($TRIMMED));
+		}
+	}
 	// If PATH_INFO is set, then Apache figured out our parts for us
-	if ( isset($_SERVER['PATH_INFO']) ) {
+	else if ( isset($_SERVER['PATH_INFO']) ) {
+		// PATH_INFO is relative, and omits the script name
 		$PATH = $_SERVER['PATH_INFO'];
 	}
 	// Alternatively if REDIRECT_URL is set, then this was a redirect
